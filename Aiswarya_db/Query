@@ -1,0 +1,515 @@
+mysql> select * from INSTRUCTOR;
++-----+----------+------------------+--------+
+| id  | name     | dept_name        | salary |
++-----+----------+------------------+--------+
+| 110 | Hrudya   | PG               | 156000 |
+| 111 | Smitha   | Production       | 150000 |
+| 112 | Ambili   | Civil            | 145000 |
+| 113 | Krishnan | Computer Science | 146000 |
+| 114 | Shabeer  | Computer Science | 200000 |
++-----+----------+------------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from TEACHES;
++--------------+-----------+--------+----------+------+
+| attribute_id | course_id | sec_id | semester | year |
++--------------+-----------+--------+----------+------+
+|         1101 |       101 |    120 | sem1     | 2016 |
+|         1102 |       102 |    121 | sem3     | 2017 |
+|         1103 |       103 |    122 | sem3     | 2018 |
+|         1104 |       103 |    123 | sem5     | 2018 |
+|         1105 |       105 |    124 | sem1     | 2016 |
++--------------+-----------+--------+----------+------+
+5 rows in set (0.01 sec)
+
+mysql> select * from SECTION;
++-----------+--------+----------+------+----------+---------+--------------+
+| course_id | sec_id | semester | year | building | room_no | time_slot_id |
++-----------+--------+----------+------+----------+---------+--------------+
+|       101 |    120 | sem1     | 2016 | B Block  | 11      |         1001 |
+|       102 |    121 | sem3     | 2017 | C Block  | 13      |         1002 |
+|       103 |    122 | sem3     | 2018 | PG Block | 21      |         1003 |
+|       103 |    123 | sem5     | 2018 | PG Block | 24      |         1004 |
+|       105 |    124 | sem1     | 2016 | A Block  | 17      |         1005 |
++-----------+--------+----------+------+----------+---------+--------------+
+5 rows in set (0.01 sec)
+
+mysql> select name,dept_name from INSTRUCTOR join DEPARTMENT using(dept_name);
++----------+------------------+
+| name     | dept_name        |
++----------+------------------+
+| Hrudya   | PG               |
+| Smitha   | Production       |
+| Ambili   | Civil            |
+| Krishnan | Computer Science |
+| Shabeer  | Computer Science |
++----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> mysql> select name,dept_name from INSTRUCTOR join DEPARTMENT using(dept_name);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql> select name,dept_name from INSTRUCTOR join DEPARTMENT using(dept_name)' at line 1
+mysql> +----------+------------------+
+    -> | name     | dept_name        |
+    -> +----------+------------------+
+    -> | Hrudya   | PG               |
+    -> | Smitha   | Production       |
+    -> | Ambili   | Civil            |
+    -> | Krishnan | Computer Science |
+    -> | Shabeer  | Computer Science |
+    -> +----------+------------------+
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+----------+------------------+
+| name     | dept_name        |
++----------+----' at line 1
+mysql> select name,course_id from INSTRUCTOR join COURSE using(dept_name);
++----------+-----------+
+| name     | course_id |
++----------+-----------+
+| Hrudya   |       103 |
+| Hrudya   |       104 |
+| Smitha   |       105 |
+| Ambili   |       101 |
+| Krishnan |       102 |
+| Shabeer  |       102 |
++----------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> drop table TEACHES;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> create table TEACHES(id NUMERIC(3),course_id NUMERIC(3),sec_id NUMERIC(3),semester VARCHAR(10),year NUMERIC(4),PRIMARY KEY(id,course_id,sec_id,semester,year),FOREIGN KEY(id) references INSTRUCTOR(id));
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> insert into TEACHES values(110,101,120,'sem1',2016);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into TEACHES values(111,102,121,'sem6',2017);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into TEACHES values(112,103,122,'sem3',2015);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> alter table TEACHES add foreign key(course_id) references COURSE(course_id);
+Query OK, 3 rows affected (0.76 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> alter table TEACHES add foreign key(sec_id) references SECTION(sec_id_id);
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> alter table TEACHES add foreign key(sec_id) references SECTION(sec_id_id);mysql> select name,dept_name from INSTRUCTOR join DEPARTMENT using(dept_name);
+ERROR 1215 (HY000): Cannot add foreign key constraint
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql> select name,dept_name from INSTRUCTOR join DEPARTMENT using(dept_name)' at line 1
+mysql> +----------+------------------+
+    -> | name     | dept_name        |
+    -> +----------+------------------+
+    -> | Hrudya   | PG               |
+    -> | Smitha   | Production       |
+    -> | Ambili   | Civil            |
+    -> | Krishnan | Computer Science |
+    -> | Shabeer  | Computer Science |
+    -> +----------+------------------+
+    -> | Ambili   | Civil            |;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+----------+------------------+
+| name     | dept_name        |
++----------+----' at line 1
+mysql> alter table TEACHES add foreign key(sec_id) references SECTION(sec_id);
+Query OK, 3 rows affected (1.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into TEACHES values(113,104,123,'sem2',2016);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into TEACHES values(114,105,124,'sem5',2017);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from TEACHES;
++-----+-----------+--------+----------+------+
+| id  | course_id | sec_id | semester | year |
++-----+-----------+--------+----------+------+
+| 110 |       101 |    120 | sem1     | 2016 |
+| 111 |       102 |    121 | sem6     | 2017 |
+| 112 |       103 |    122 | sem3     | 2015 |
+| 113 |       104 |    123 | sem2     | 2016 |
+| 114 |       105 |    124 | sem5     | 2017 |
++-----+-----------+--------+----------+------+
+5 rows in set (0.01 sec)
+
+mysql> select name,course_id from INSTRUCTOR natural join TEACHES using(id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'using(id)' at line 1
+mysql> select name,course_id from INSTRUCTOR natural join TEACHES;
++----------+-----------+
+| name     | course_id |
++----------+-----------+
+| Hrudya   |       101 |
+| Smitha   |       102 |
+| Ambili   |       103 |
+| Krishnan |       104 |
+| Shabeer  |       105 |
++----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select dept_name where building like '%Block';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where building like '%Block'' at line 1
+mysql> select dept_name where building like '% Block';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where building like '% Block'' at line 1
+mysql> select dept_name from DEPARTMENT where building like '% Block';
++------------------+
+| dept_name        |
++------------------+
+| Civil            |
+| Computer Science |
+| EEE              |
+| Mechanical       |
+| PG               |
+| Production       |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> select name,salary from INSTRUCTOR order by salary desc,name asc;
++----------+--------+
+| name     | salary |
++----------+--------+
+| Shabeer  | 200000 |
+| Hrudya   | 156000 |
+| Smitha   | 150000 |
+| Krishnan | 146000 |
+| Ambili   | 145000 |
++----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> insert into INSTRUCTOR values(115,'Akhinesh','EEE',146000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select name,salary from INSTRUCTOR order by salary desc,name asc;
++----------+--------+
+| name     | salary |
++----------+--------+
+| Shabeer  | 200000 |
+| Hrudya   | 156000 |
+| Smitha   | 150000 |
+| Akhinesh | 146000 |
+| Krishnan | 146000 |
+| Ambili   | 145000 |
++----------+--------+
+6 rows in set (0.00 sec)
+
+mysql> insert into INSTRUCTOR values(116,'Zoya','EEE',95000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select name,salary from INSTRUCTOR order by salary desc,name asc;
++----------+--------+
+| name     | salary |
++----------+--------+
+| Shabeer  | 200000 |
+| Hrudya   | 156000 |
+| Smitha   | 150000 |
+| Akhinesh | 146000 |
+| Krishnan | 146000 |
+| Ambili   | 145000 |
+| Zoya     |  95000 |
++----------+--------+
+7 rows in set (0.00 sec)
+
+mysql> Ctrl-C -- exit!
+Aborted
+mca@mca-HP-280-G2-MT:~$ mysql> select name from INSTRUCTOR where dept_name='Computer Science' and salary>50000;
+mca@mca-HP-280-G2-MT:~$ +----------+
++----------+: command not found
+mca@mca-HP-280-G2-MT:~$ | name     |
+bash: syntax error near unexpected token `|'
+mca@mca-HP-280-G2-MT:~$ +----------+
++----------+: command not found
+mca@mca-HP-280-G2-MT:~$ | Krishnan |
+bash: syntax error near unexpected token `|'
+mca@mca-HP-280-G2-MT:~$ | Shabeer  |
+bash: syntax error near unexpected token `|'
+mca@mca-HP-280-G2-MT:~$ +----------+
++----------+: command not found
+mca@mca-HP-280-G2-MT:~$ mysql> select name from INSTRUCTOR where dept_name='Computer Science' and salary>50000;
+mca@mca-HP-280-G2-MT:~$ +----------+
++----------+: command not found
+mca@mca-HP-280-G2-MT:~$ | name     |
+bash: syntax error near unexpected token `|'
+mca@mca-HP-280-G2-MT:~$ +----------+
++----------+: command not found
+mca@mca-HP-280-G2-MT:~$ | Krishnan |
+bash: syntax error near unexpected token `|'
+mca@mca-HP-280-G2-MT:~$ | Shabeer  |
+bash: syntax error near unexpected token `|'
+mca@mca-HP-280-G2-MT:~$ +----------+
++----------+: command not found
+mca@mca-HP-280-G2-MT:~$ mysql -u root -p;
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 40
+Server version: 5.6.33-0ubuntu0.14.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select name from INSTRUCTOR where salary between 90000 and 100000;
+ERROR 1046 (3D000): No database selected
+mysql> use STUDENT
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select name from INSTRUCTOR where salary between 90000 and 100000;
++------+
+| name |
++------+
+| Zoya |
++------+
+1 row in set (0.00 sec)
+
+mysql> select name,title from INSTRUCTOR join COURSE using(mysql> select name from INSTRUCTOR where dept_name='Computer Science' and salary>50000;)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '> select name from INSTRUCTOR where dept_name='Computer Science' and salary>5000' at line 1
+    -> +----------+
+    -> | name     |
+    -> +----------+
+    -> | Krishnan |
+    -> | Shabeer  |
+    -> +----------+
+    -> | Krishnan |;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
++----------+
+| name     |
++----------+
+| Krishnan |
+| Shabeer  |
++----------+
+' at line 1
+mysql> select name,title from INSTRUCTOR join TEACHES join COURSE using(dept_name);
++----------+----------------------+
+| name     | title                |
++----------+----------------------+
+| Ambili   | Structural Analysis  |
+| Ambili   | Structural Analysis  |
+| Ambili   | Structural Analysis  |
+| Ambili   | Structural Analysis  |
+| Ambili   | Structural Analysis  |
+| Krishnan | Software Engineering |
+| Shabeer  | Software Engineering |
+| Krishnan | Software Engineering |
+| Shabeer  | Software Engineering |
+| Krishnan | Software Engineering |
+| Shabeer  | Software Engineering |
+| Krishnan | Software Engineering |
+| Shabeer  | Software Engineering |
+| Krishnan | Software Engineering |
+| Shabeer  | Software Engineering |
+| Hrudya   | Web Programming      |
+| Hrudya   | Web Programming      |
+| Hrudya   | Web Programming      |
+| Hrudya   | Web Programming      |
+| Hrudya   | Web Programming      |
+| Hrudya   | Data Structures      |
+| Hrudya   | Data Structures      |
+| Hrudya   | Data Structures      |
+| Hrudya   | Data Structures      |
+| Hrudya   | Data Structures      |
+| Smitha   | Mathematics          |
+| Smitha   | Mathematics          |
+| Smitha   | Mathematics          |
+| Smitha   | Mathematics          |
+| Smitha   | Mathematics          |
++----------+----------------------+
+30 rows in set (0.01 sec)
+
+mysql> select name,title from INSTRUCTOR join COURSE using(dept_name);
++----------+----------------------+
+| name     | title                |
++----------+----------------------+
+| Ambili   | Structural Analysis  |
+| Krishnan | Software Engineering |
+| Shabeer  | Software Engineering |
+| Hrudya   | Web Programming      |
+| Hrudya   | Data Structures      |
+| Smitha   | Mathematics          |
++----------+----------------------+
+6 rows in set (0.00 sec)
+
+mysql> select name,title from INSTRUCTOR join COURSE using(dept_name) where dept_name='Civil';
++--------+---------------------+
+| name   | title               |
++--------+---------------------+
+| Ambili | Structural Analysis |
++--------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select title from COURSE join SECTION using(course_id) where semester='sem2' and year='2016';
+Empty set (0.00 sec)
+
+mysql> insert into SECTION values(101,120,'sem2',2016,'B Block',10,1006);
+ERROR 1062 (23000): Duplicate entry '120' for key 'PRIMARY'
+mysql> insert into SECTION values(101,125,'sem2',2016,'B Block',10,1006);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select title from COURSE join SECTION using(course_id) where semester='sem2' and year='2016';
++---------------------+
+| title               |
++---------------------+
+| Structural Analysis |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select title from course join section using(course_id) where semester='sem1'and year=2016 or semester='sem6' and year=2017;
+ERROR 1146 (42S02): Table 'STUDENT.course' doesn't exist
+mysql> select title from COURSE join SECTION using(course_id) where semester='sem1'and year=2016 or semester='sem6' and year=2017;
++---------------------+
+| title               |
++---------------------+
+| Structural Analysis |
+| Mathematics         |
++---------------------+
+2 rows in set (0.00 sec)
+
+mysql> Ctrl-C -- exit!
+Aborted
+mca@mca-HP-280-G2-MT:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 41
+Server version: 5.6.33-0ubuntu0.14.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select name,dept_name from INSTRUCTOR join DEPARTMENT using(dept_name);
+ERROR 1046 (3D000): No database selected
+mysql> select name,dept_name,building from INSTRUCTOR join DEPARTMENT using(dept_name);
+ERROR 1046 (3D000): No database selected
+mysql> use STUDENT
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select name,dept_name,building from INSTRUCTOR join DEPARTMENT using(dept_name);
++----------+------------------+----------+
+| name     | dept_name        | building |
++----------+------------------+----------+
+| Ambili   | Civil            | B Block  |
+| Krishnan | Computer Science | C Block  |
+| Shabeer  | Computer Science | C Block  |
+| Akhinesh | EEE              | B Block  |
+| Zoya     | EEE              | B Block  |
+| Hrudya   | PG               | PG Block |
+| Smitha   | Production       | A Block  |
++----------+------------------+----------+
+7 rows in set (0.00 sec)
+
+mysql>  select name,course_id from INSTRUCTOR natural join TEACHES
+    -> ;
++----------+-----------+
+| name     | course_id |
++----------+-----------+
+| Hrudya   |       101 |
+| Smitha   |       102 |
+| Ambili   |       103 |
+| Krishnan |       104 |
+| Shabeer  |       105 |
++----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select dept_name from DEPARTMENT where building like '% Block';
++------------------+
+| dept_name        |
++------------------+
+| Civil            |
+| Computer Science |
+| EEE              |
+| Mechanical       |
+| PG               |
+| Production       |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql>  select name,salary from INSTRUCTOR order by salary desc,name asc;
++----------+--------+
+| name     | salary |
++----------+--------+
+| Shabeer  | 200000 |
+| Hrudya   | 156000 |
+| Smitha   | 150000 |
+| Akhinesh | 146000 |
+| Krishnan | 146000 |
+| Ambili   | 145000 |
+| Zoya     |  95000 |
++----------+--------+
+7 rows in set (0.00 sec)
+
+mysql> Ctrl-C -- exit!
+Aborted
+mca@mca-HP-280-G2-MT:~$ mysql -u root -p;
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 42
+Server version: 5.6.33-0ubuntu0.14.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use STUDENT
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select name from INSTRUCTOR where salary between 90000 and 100000;
++------+
+| name |
++------+
+| Zoya |
++------+
+1 row in set (0.00 sec)
+
+mysql> select name,title from INSTRUCTOR join COURSE using(dept_name) where dept_name='Civil';
++--------+---------------------+
+| name   | title               |
++--------+---------------------+
+| Ambili | Structural Analysis |
++--------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select title from COURSE join SECTION using(course_id) where semester='sem1'and year=2016 or semester='sem6' and year=2017;
++---------------------+
+| title               |
++---------------------+
+| Structural Analysis |
+| Mathematics         |
++---------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+ select name,salary from INSTRUCTOR where dept_name='computer Science' and salary>50000
+    -> ;
++----------+--------+
+| name     | salary |
++----------+--------+
+| Krishnan | 146000 |
+| Shabeer  | 200000 |
++----------+--------+
+
+
+mysql> select title from COURSE join SECTION using(course_id) where semester='sem2' and year='2016';
++---------------------+
+| title               |
++---------------------+
+| Structural Analysis |
++---------------------+
+
+

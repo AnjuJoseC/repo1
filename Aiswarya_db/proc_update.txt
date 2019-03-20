@@ -1,0 +1,17 @@
+mysql> create procedure s10_update_procedure() begin update product set price=44 where barcode=112233; end$$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call s10_update_procedure();$$
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from product;$$                                                 +---------+-----------+--------+--------------+
+| barcode | pname     | price  | qty_in_stock |
++---------+-----------+--------+--------------+
+|  112233 | Note Book |  44.00 |           54 |
+|  123451 | Bag       | 300.00 |          165 |
+|  334455 | Tea       | 300.00 |           50 |
+|  553467 | Coffee    | 300.00 |          108 |
+|  567234 | Pencil    | 300.00 |          200 |
++---------+-----------+--------+--------------+
+5 rows in set (0.00 sec)
+

@@ -1,0 +1,90 @@
+mysql> create database COMPANY;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use COMPANY
+Database changed
+
+mysql> create table Employee(emp_no varchar(5) NOT NULL Primary key,e_name VARCHAR(25),job varchar(25),manager varchar(25),hire_date date,salary Numeric(8),commission Numeric(2),dept_no varchar(5));
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> Desc Employee;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| emp_no     | varchar(5)   | NO   | PRI | NULL    |       |
+| e_name     | varchar(25)  | YES  |     | NULL    |       |
+| job        | varchar(25)  | YES  |     | NULL    |       |
+| manager    | varchar(25)  | YES  |     | NULL    |       |
+| hire_date  | date         | YES  |     | NULL    |       |
+| salary     | decimal(8,0) | YES  |     | NULL    |       |
+| commission | decimal(2,0) | YES  |     | NULL    |       |
+| dept_no    | varchar(5)   | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+
+mysql> create table Department(dept_no Varchar(5) NOT NULL Primary key,dept_name varchar(25),loc varchar(25));
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> desc Department;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_no   | varchar(5)  | NO   | PRI | NULL    |       |
+| dept_name | varchar(25) | YES  |     | NULL    |       |
+| loc       | varchar(25) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+
+mysql> insert into Employee values('e1','Maya','MD',NULL,'2016-03-03',200000,20,'d1');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Employee;
++--------+--------+------+---------+------------+--------+------------+---------+
+| emp_no | e_name | job  | manager | hire_date  | salary | commission | dept_no |
++--------+--------+------+---------+------------+--------+------------+---------+
+| e1     | Maya   | MD   | NULL    | 2016-03-03 | 200000 |         20 | d1      |
++--------+--------+------+---------+------------+--------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into Employee values('e2','Govind','Clerk','e1','2016-05-01',15000,2,'d4');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Employee values('e3','Anju','Clerk','e4','2017-11-15',14500,2,'d4');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee values('e4','Anu','GM',NULL,'2015-02-04',145000,15,'d3');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee values('e5','Sanjay','Accountant','e1','2015-12-29',25000,10,'d4');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee values('e6','Manu','SE','e1','2015-12-29',26500,5,'d3');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Employee;                                              
+| emp_no | e_name | job        | manager | hire_date  | salary | commission | dept_no |
++--------+--------+------------+---------+------------+--------+------------+---------+
+| e1     | Maya   | MD         | NULL    | 2016-03-03 | 200000 |         20 | d1      |
+| e2     | Govind | Clerk      | e1      | 2016-05-01 |  15000 |          2 | d4      |
+| e3     | Anju   | Clerk      | e4      | 2017-11-15 |  14500 |          2 | d4      |
+| e4     | Anu    | GM         | NULL    | 2015-02-04 | 145000 |         15 | d1      |
+| e5     | Sanjay | Accountant | e1      | 2015-12-29 |  25000 |         10 | d4      |
+| e6     | Manu   | SE         | e1      | 2015-12-29 |  26500 |          5 | d3      |
++--------+--------+------------+---------+------------+--------+------------+---------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from Department;
++---------+------------+-----------+
+| dept_no | dept_name  | loc       |
++---------+------------+-----------+
+| D1      | Production | Thrissur  |
+| D2      | Sales      | Ernakulam |
+| D3      | Purchase   | Ernakulam |
+| D4      | HR         | Thrissur  |
+| D5      | Finance    | Kozhikode |
++---------+------------+-----------+
+5 rows in set (0.00 sec)
+

@@ -1,0 +1,48 @@
+mysql> create procedure sp1_insert_procedure(in barcode integer,in pname varchar(20),in price numeric(8,2),in qty_in_stock integer) begin if price>0 and qty_in_stock>=0 then insert into product values(barcode,pname,price,qty_in_stock); end if;end$$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call sp_insert_procedure(567234,'Pencil',4,200);
+    -> $$
+Query OK, 1 row affected (0.07 sec)
+
+mysql> delimiter ;
+mysql> select * from product;
++---------+-----------+--------+--------------+
+| barcode | pname     | price  | qty_in_stock |
++---------+-----------+--------+--------------+
+|  112233 | Note Book |  30.00 |           54 |
+|  123451 | Bag       | 280.00 |          165 |
+|  334455 | Tea       | 300.00 |           50 |
+|  553467 | Coffee    | 250.00 |          108 |
++---------+-----------+--------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> call sp1_insert_procedure(567234,'Pencil',4,200);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from product;
++---------+-----------+--------+--------------+
+| barcode | pname     | price  | qty_in_stock |
++---------+-----------+--------+--------------+
+|  112233 | Note Book |  30.00 |           54 |
+|  123451 | Bag       | 280.00 |          165 |
+|  334455 | Tea       | 300.00 |           50 |
+|  553467 | Coffee    | 250.00 |          108 |
+|  567234 | Pencil    |   4.00 |          200 |
++---------+-----------+--------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> call sp1_insert_procedure(567234,'Pencil',0,200);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from product;
++---------+-----------+--------+--------------+
+| barcode | pname     | price  | qty_in_stock |
++---------+-----------+--------+--------------+
+|  112233 | Note Book |  30.00 |           54 |
+|  123451 | Bag       | 280.00 |          165 |
+|  334455 | Tea       | 300.00 |           50 |
+|  553467 | Coffee    | 250.00 |          108 |
+|  567234 | Pencil    |   4.00 |          200 |
++---------+-----------+--------+--------------+
+5 rows in set (0.00 sec)

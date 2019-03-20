@@ -1,0 +1,163 @@
+mysql> create database Trigger_db;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use Trigger_db
+Database changed
+mysql> create table product(barcode integer,pname varchar(20),price numeric(8,2),qty_in_stock integer,primary key(barcode));
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> desc product
+    -> ;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| barcode      | int(11)      | NO   | PRI | 0       |       |
+| pname        | varchar(20)  | YES  |     | NULL    |       |
+| price        | decimal(8,2) | YES  |     | NULL    |       |
+| qty_in_stock | int(11)      | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table sale(sale_id varchar(10),delivery_addr varchar(40),credit_card varchar(20),primary key(sale_id));
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> desc sale;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| sale_id       | varchar(10) | NO   | PRI |         |       |
+| delivery_addr | varchar(40) | YES  |     | NULL    |       |
+| credit_card   | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> create table sale_item(sale_id varchar(10),barcode integer,qty integer,primary key(sale_id,barcode));
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> desc sale_item;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| sale_id | varchar(10) | NO   | PRI |         |       |
+| barcode | int(11)     | NO   | PRI | 0       |       |
+| qty     | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table sale_item add foreign key(sale_id) references sale(sale_id);
+Query OK, 0 rows affected (0.70 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc sale_item;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| sale_id | varchar(10) | NO   | PRI |         |       |
+| barcode | int(11)     | NO   | PRI | 0       |       |
+| qty     | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table sale_item add foreign key(barcode) references product(barcode);
+Query OK, 0 rows affected (0.54 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc sale_item;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| sale_id | varchar(10) | NO   | PRI |         |       |
+| barcode | int(11)     | NO   | PRI | 0       |       |
+| qty     | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+mysql> insert into product values(112233,'Note Book',30,54);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into product values(123451,'Bag',280,180);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into product values(553467,'Coffee',250,108);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from product;
++---------+-----------+--------+--------------+
+| barcode | pname     | price  | qty_in_stock |
++---------+-----------+--------+--------------+
+|  112233 | Note Book |  30.00 |           54 |
+|  123451 | Bag       | 280.00 |          180 |
+|  553467 | Coffee    | 250.00 |          108 |
++---------+-----------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into sales value('sl1','aabbaabb','190002345');
+ERROR 1146 (42S02): Table 'Trigger_db.sales' doesn't exist
+mysql> insert into sale value('sl1','aabbaabb','190002345');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into sale value('sl2','cdcdcdcd','194352345');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into sale value('sl3','usususus','194654876');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from ale
+    -> ;
+ERROR 1146 (42S02): Table 'Trigger_db.ale' doesn't exist
+mysql> select * from sale;
++---------+---------------+-------------+
+| sale_id | delivery_addr | credit_card |
++---------+---------------+-------------+
+| sl1     | aabbaabb      | 190002345   |
+| sl2     | cdcdcdcd      | 194352345   |
+| sl3     | usususus      | 194654876   |
++---------+---------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into sale_item value('sl3',112233,10);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into sale_item value('sl2',553467,4);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into sale_item value('sl1',123451,34);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from sale_item;
++---------+---------+------+
+| sale_id | barcode | qty  |
++---------+---------+------+
+| sl1     |  123451 |   34 |
+| sl2     |  553467 |    4 |
+| sl3     |  112233 |   10 |
++---------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> delimiter $$;
+mysql> create trigger update_available_qty after insert on sale_item for each row begin update product set product.qty_in_stock=product.qty_in_stock-new.qty where product.barcode=new.barcode;end$$;
+Query OK, 0 rows affected (0.07 sec)
+
+
+mysql> delimiter ;
+mysql> insert into sale_item values('sl4',123451,15);
+
+
+ set foreign_key_checks=0
+
+
+
+mysql> insert into sale_item values('sl4',123451,15);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from product;
++---------+-----------+--------+--------------+
+| barcode | pname     | price  | qty_in_stock |
++---------+-----------+--------+--------------+
+|  112233 | Note Book |  30.00 |           54 |
+|  123451 | Bag       | 280.00 |          165 |
+|  553467 | Coffee    | 250.00 |          108 |
++---------+-----------+--------+--------------+
+3 rows in set (0.00 sec)
+

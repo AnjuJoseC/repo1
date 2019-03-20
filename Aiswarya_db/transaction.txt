@@ -1,0 +1,198 @@
+mysql> create database db1;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use db1;
+Database changed
+
+
+
+
+mysql> create table Employee(emp_no varchar(3) primary key,ename varchar(20),age numeric(2,0))engine=innoDB;
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> desc Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| emp_no | varchar(3)   | NO   | PRI | NULL    |       |
+| ename  | varchar(20)  | YES  |     | NULL    |       |
+| age    | decimal(2,0) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into Employee values('e01','Kavya',22);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee values('e02','France',45);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee values('e03','Jify',50);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Employee values('e04','Anju',20);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Employee values('e05','Anu',25);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select @@autocommit;
++--------------+
+| @@autocommit |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> set @@autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into Employee values('e06','Maya',25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Employee;
++--------+--------+------+
+| emp_no | ename  | age  |
++--------+--------+------+
+| e01    | Kavya  |   22 |
+| e02    | France |   45 |
+| e03    | Jify   |   50 |
+| e04    | Anju   |   20 |
+| e05    | Anu    |   25 |
+| e06    | Maya   |   25 |
++--------+--------+------+
+6 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from Employee;
++--------+--------+------+
+| emp_no | ename  | age  |
++--------+--------+------+
+| e01    | Kavya  |   22 |
+| e02    | France |   45 |
+| e03    | Jify   |   50 |
+| e04    | Anju   |   20 |
+| e05    | Anu    |   25 |
++--------+--------+------+
+5 rows in set (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into Employee values('e06','Maya',25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Employee values('e07','Athira',26);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Employee;
++--------+--------+------+
+| emp_no | ename  | age  |
++--------+--------+------+
+| e01    | Kavya  |   22 |
+| e02    | France |   45 |
+| e03    | Jify   |   50 |
+| e04    | Anju   |   20 |
+| e05    | Anu    |   25 |
+| e06    | Maya   |   25 |
+| e07    | Athira |   26 |
++--------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into Employee values('e08','Akhil',22);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Employee values('e09','Akhila',32);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> save point xx;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'save point xx' at line 1
+mysql> savepoint xx;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Employee;
++--------+--------+------+
+| emp_no | ename  | age  |
++--------+--------+------+
+| e01    | Kavya  |   22 |
+| e02    | France |   45 |
+| e03    | Jify   |   50 |
+| e04    | Anju   |   20 |
+| e05    | Anu    |   25 |
+| e06    | Maya   |   25 |
+| e07    | Athira |   26 |
+| e08    | Akhil  |   22 |
+| e09    | Akhila |   32 |
++--------+--------+------+
+9 rows in set (0.00 sec)
+
+mysql> delete from Employee where emp_no='e09';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Employee values('e10','Chinju',32);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Employee;
++--------+--------+------+
+| emp_no | ename  | age  |
++--------+--------+------+
+| e01    | Kavya  |   22 |
+| e02    | France |   45 |
+| e03    | Jify   |   50 |
+| e04    | Anju   |   20 |
+| e05    | Anu    |   25 |
+| e06    | Maya   |   25 |
+| e07    | Athira |   26 |
+| e08    | Akhil  |   22 |
+| e10    | Chinju |   32 |
++--------+--------+------+
+9 rows in set (0.00 sec)
+
+mysql> rollback to xx;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Employee;
++--------+--------+------+
+| emp_no | ename  | age  |
++--------+--------+------+
+| e01    | Kavya  |   22 |
+| e02    | France |   45 |
+| e03    | Jify   |   50 |
+| e04    | Anju   |   20 |
+| e05    | Anu    |   25 |
+| e06    | Maya   |   25 |
+| e07    | Athira |   26 |
+| e08    | Akhil  |   22 |
+| e09    | Akhila |   32 |
++--------+--------+------+
+9 rows in set (0.00 sec)
+
+mysql> insert into Employee values('e10','Chinju',32);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from Employee;
++--------+--------+------+
+| emp_no | ename  | age  |
++--------+--------+------+
+| e01    | Kavya  |   22 |
+| e02    | France |   45 |
+| e03    | Jify   |   50 |
+| e04    | Anju   |   20 |
+| e05    | Anu    |   25 |
+| e06    | Maya   |   25 |
+| e07    | Athira |   26 |
+| e08    | Akhil  |   22 |
+| e09    | Akhila |   32 |
+| e10    | Chinju |   32 |
++--------+--------+------+
+
