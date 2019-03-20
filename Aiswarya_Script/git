@@ -1,0 +1,113 @@
+mca@mca-HP-280-G2-MT:~$ touch asd.sh
+mca@mca-HP-280-G2-MT:~$ at -f asd.sh now+1 minute
+warning: commands will be executed using /bin/sh
+job 11 at Mon Mar 18 14:55:00 2019
+mca@mca-HP-280-G2-MT:~$ mkdir Aisu_Git
+mca@mca-HP-280-G2-MT:~$ cd Aisu_Git
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git init
+Initialized empty Git repository in /home/mca/Aisu_Git/.git/
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ touch filegit1.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git add filegit1.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ ls
+filegit1.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ touch f2.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git add filegit1.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ commit
+commit: command not found
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git commit
+Aborting commit due to empty commit message.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git commit -m "File Added Successfully"
+[master (root-commit) 8afa6f0] File Added Successfully
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 filegit1.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git remote add origin git@github.com:Aiswaryadhan/sample
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push -u origin master
+The authenticity of host 'github.com (192.30.253.112)' can't be established.
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,192.30.253.112' (RSA) to the list of known hosts.
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git remote add origin git@github.com/Aiswaryadhan/sample.git
+fatal: remote origin already exists.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push -u origin master
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ ^C
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git remote add origin git@github.com/Aiswaryadhan/Example.git
+fatal: remote origin already exists.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git remote add origin1 git@github.com/Aiswaryadhan/Example.git
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push -u origin1 masterfatal: 'git@github.com/Aiswaryadhan/Example.git' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git remote add origin1 git@github.com/Aiswaryadhan/Example.git
+fatal: remote origin1 already exists.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push -u origin1 master
+fatal: 'git@github.com/Aiswaryadhan/Example.git' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git add README.md
+fatal: pathspec 'README.md' did not match any files
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push -f origin1 master
+fatal: 'git@github.com/Aiswaryadhan/Example.git' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git remote add temp https://github.com/Aiswaryadhan/Example.git
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push temp master
+Username for 'https://github.com': Aiswarya*1
+Password for 'https://Aiswarya*1@github.com':
+remote: Invalid username or password.
+fatal: Authentication failed for 'https://github.com/Aiswaryadhan/Example.git/'
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push temp master
+Username for 'https://github.com': Aiswaryadhan
+Password for 'https://Aiswaryadhan@github.com':
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 227 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/Aiswaryadhan/Example.git
+ * [new branch]      master -> master
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git branch
+* master
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git branch aisu1
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git checkout aisu1
+Switched to branch 'aisu1'
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ touch f11.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git add f11.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push temp aisu1
+Username for 'https://github.com': Aiswaryadhan
+Password for 'https://Aiswaryadhan@github.com':
+Total 0 (delta 0), reused 0 (delta 0)
+remote:
+remote: Create a pull request for 'aisu1' on GitHub by visiting:
+remote:      https://github.com/Aiswaryadhan/Example/pull/new/aisu1
+remote:
+To https://github.com/Aiswaryadhan/Example.git
+ * [new branch]      aisu1 -> aisu1
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git add f11.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git commit
+[aisu1 850db3f] f11.txt added to Branch aisu1
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 f11.txt
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ git push temp aisu1
+Username for 'https://github.com': Aiswaryadhan
+Password for 'https://Aiswaryadhan@github.com':
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 254 bytes | 0 bytes/s, done.
+Total 2 (delta 0), reused 0 (delta 0)
+To https://github.com/Aiswaryadhan/Example.git
+   8afa6f0..850db3f  aisu1 -> aisu1
+mca@mca-HP-280-G2-MT:~/Aisu_Git$ 
