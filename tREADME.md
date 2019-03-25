@@ -1,4 +1,4 @@
 # Repo1tu
 
 
-gfhogfkh jrhtiyert sjhgtuyerwg
+echo "Welcome to Github"
