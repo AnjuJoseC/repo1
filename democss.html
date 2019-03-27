@@ -1,0 +1,47 @@
+<html>
+<head>
+ <title>Demo CSS</title>
+ <link href="extstyle.css" type="text/css" rel="stylesheet" />
+ <style type="text/css">
+   ul
+   {
+	color:red;font-weight:bold;font-family:Georgia;
+   }
+   .h2
+   {
+	color:yellow;
+   }
+ 
+</style>
+<script>
+function change()
+{
+  document.getElementById('para').style.backgroundColor="orange";
+}
+</script>
+</head>
+<body id="para">
+ <h1 style="font-family:arial;text-align:center;color:magenta;"> COMPUTER </h1>
+ <h2 class="h2">An electronic device that stores and manipulates information. Unlike a calculator, it is able to store a program and retrieve information from its memory. Most computers today are digital, which means they perform operations with quantities represented electronically as digits.</h2>
+<h3 class="h4">Parts Of A Computer ::</h3>
+<center><img src="/home/admin1/anju/cpu.jpg"  width="500" id="para"></center>
+
+<h3 style="color:cyan;text-decoration:underline;">* Input Devices *</h3>
+ <ul>
+	<li>Keyboard</li>
+  	<li>Mouse</li>
+	<li>Trackball</li>
+	<li>Joystick</li>
+   	<li>Lightpen</li>
+</ul>
+<h3 style="color:cyan;text-decoration:underline;">* Output Devices *</h3>
+ <ul>
+
+  	<li>Monitor</li>
+	<li>Printer</li>
+	
+</ul>
+<center><input type="button" value="TRY" onclick="change()"></center>
+
+</body>
+</html>
